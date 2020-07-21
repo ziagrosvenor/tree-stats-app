@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from "react";
+import styled from "styled-components";
 import startOfMonth from "date-fns/startOfMonth";
 import endOfMonth from "date-fns/endOfMonth";
 import { Error, LoadingIndicator, BarChart, Button } from "../../components";
@@ -9,6 +10,13 @@ import {
   formatDateString,
   selectTreesFilterByDateRange,
 } from "./selectors";
+
+const FiltersContainer = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(100px, auto);
+`;
 
 export const DataView: React.FC<{ data: Tree[] }> = ({ data }) => {
   const [filter, setFilter] = useState<{ startDate: Date; endDate: Date }>();
@@ -21,19 +29,36 @@ export const DataView: React.FC<{ data: Tree[] }> = ({ data }) => {
 
   return (
     <div>
-      <Button
-        unelevated
-        label="Last Month"
-        onClick={() => {
-          const today = new Date();
-          const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
-          setFilter({
-            startDate: startOfMonth(lastMonth),
-            endDate: endOfMonth(lastMonth),
-          });
-        }}
-      />
+      <FiltersContainer>
+        <Button
+          unelevated
+          label="Last Month"
+          onClick={() => {
+            const today = new Date();
+            const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
+            setFilter({
+              startDate: startOfMonth(lastMonth),
+              endDate: endOfMonth(lastMonth),
+            });
+          }}
+        />
+
+        <Button
+          unelevated
+          label="Last 6 Months"
+          onClick={() => {
+            const today = new Date();
+            const sixMonthsAgo = new Date(today.setMonth(today.getMonth() - 6));
+            setFilter({
+              startDate: startOfMonth(sixMonthsAgo),
+              endDate: endOfMonth(new Date()),
+            });
+          }}
+        />
+      </FiltersContainer>
+
       <BarChart
+        key={filter?.endDate.toDateString()}
         data={filteredTrees}
         formatKey={(key) => formatDateString(key)}
       />
