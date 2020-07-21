@@ -66,3 +66,13 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 * There is some use of typescript `any` type which should be replaced with the correct type for stricter type checking.
 * Enable filtering using a date picker - For example React Day Picker - https://react-day-picker.js.org/examples/selected-range
 * Refactor presentational UI code in `DataView` into a separate file. This would give better separation of data and presentational layers.
+* Make the app themable
+* Add comments to the code and improve readability
+* Add a button to reset the filter
+* currently 10s of thousands of records returned to the client. Querying and filtering could be moved to the server.
+* `pages` folder would be renamed to routes once the application has a client side router installed and multiple routes. This would be more important at scale.
+* Loading... text shoould be replaced with an animated loading indicator. 
+* Mock fetch for testing errors.
+* Enable service worker and implement PWA manifest file.
+* Remove unused dependencies from package JSON, `moment` and `just-group-by` are unused
+* Add JSDocs comments
