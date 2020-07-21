@@ -3,6 +3,7 @@ import NodeGroup from "react-move/NodeGroup";
 import { scaleLinear, scaleBand } from "d3-scale";
 import { easeExpInOut } from "d3-ease";
 import { max } from "d3-array";
+import styled from "styled-components";
 import { ScalableSvg } from "./scalable-svg";
 
 const viewport = {
@@ -22,6 +23,11 @@ interface Props {
   formatKey: any;
 }
 
+const Line = styled.line`
+  stroke: rgba(0, 0, 0, 0.5);
+  stroke-width: 1;
+`;
+
 export const BarChart: React.FC<Props> = (props) => {
   const maxValue = max(props.data, (d) => d.value);
   const y = scaleLinear()
@@ -33,8 +39,27 @@ export const BarChart: React.FC<Props> = (props) => {
     .domain(props.data.map((d) => d.key))
     .padding(0.1);
 
+  const xScaleLines: any[] = [];
+
+  for (let i = 0; i < 6; i++) {
+    xScaleLines.push(
+      <React.Fragment key={i}>
+        <text x={0} y={(viewport.y / 6) * i + 20} fill="#333">
+          {Math.floor(maxValue * (1 - (1 / 6) * i))} trees
+        </text>
+        <Line
+          x1="0"
+          x2={viewport.x - gutter}
+          y1={(viewport.y / 6) * i}
+          y2={(viewport.y / 6) * i}
+        />
+      </React.Fragment>
+    );
+  }
+
   return (
     <ScalableSvg viewX={viewport.x} viewY={viewport.y} padding={gutter}>
+      {xScaleLines}
       <NodeGroup
         data={props.data}
         keyAccessor={(d) => d.key}
@@ -73,23 +98,32 @@ export const BarChart: React.FC<Props> = (props) => {
                     fill={"red"}
                     {...rest}
                   />
-
-                  {i % 40 === 0 && (
-                    <text
-                      x={scale.bandwidth() / 2}
-                      y={viewport.y - gutter + 15}
-                      dx="-.35em"
-                      fill="#333"
-                    >
-                      {props.formatKey(key)}
-                    </text>
-                  )}
                 </g>
               );
             })}
           </g>
         )}
       </NodeGroup>
+
+      {props.data.map(({ key }, i) => (
+        <g>
+          return (
+          <g key={key} transform={`translate(${scale(key)},0)`}>
+            {props.formatKey(props.data[i - 1]?.key) !==
+              props.formatKey(key) && (
+              <text
+                x={scale.bandwidth() / 2}
+                y={viewport.y - gutter + 15}
+                dx="-.35em"
+                fill="#333"
+              >
+                {props.formatKey(key)}
+              </text>
+            )}
+          </g>
+          );
+        </g>
+      ))}
     </ScalableSvg>
   );
 };

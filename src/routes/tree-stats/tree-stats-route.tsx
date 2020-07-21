@@ -1,15 +1,43 @@
-import React, { useMemo } from "react";
-import { Error, LoadingIndicator, BarChart } from "../../components";
+import React, { useMemo, useState } from "react";
+import startOfMonth from "date-fns/startOfMonth";
+import endOfMonth from "date-fns/endOfMonth";
+import { Error, LoadingIndicator, BarChart, Button } from "../../components";
 import { Tree } from "../../types/tree";
 import { useTreesAPI } from "./use-trees-api";
-import { selectTreeTotalsPerDay, formatDateString } from "./selectors";
+import {
+  selectTreeTotalsPerDay,
+  formatDateString,
+  selectTreesFilterByDateRange,
+} from "./selectors";
 
 export const DataView: React.FC<{ data: Tree[] }> = ({ data }) => {
+  const [filter, setFilter] = useState<{ startDate: Date; endDate: Date }>();
   const treesList = useMemo(() => selectTreeTotalsPerDay(data), [data]);
 
-  console.warn(treesList);
+  const filteredTrees = useMemo(
+    () => selectTreesFilterByDateRange(treesList, filter),
+    [treesList, filter]
+  );
+
   return (
-    <BarChart data={treesList} formatKey={(key) => formatDateString(key)} />
+    <div>
+      <Button
+        unelevated
+        label="Last Month"
+        onClick={() => {
+          const today = new Date();
+          const lastMonth = new Date(today.setMonth(today.getMonth() - 1));
+          setFilter({
+            startDate: startOfMonth(lastMonth),
+            endDate: endOfMonth(lastMonth),
+          });
+        }}
+      />
+      <BarChart
+        data={filteredTrees}
+        formatKey={(key) => formatDateString(key)}
+      />
+    </div>
   );
 };
 

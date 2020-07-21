@@ -22,7 +22,7 @@ interface Props {
   viewX: number;
   viewY: number;
   padding: number;
-  children: React.ReactElement;
+  children: any[];
 }
 
 export const ScalableSvg: React.FC<Props> = (props) => {
