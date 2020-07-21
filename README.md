@@ -14,7 +14,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
  ┃ ┣ 📂tree-stats
  ┃ ┃ ┣ 📜index.ts
  ┃ ┃ ┣ 📜selectors.ts
- ┃ ┃ ┣ 📜tree-stats-route.tsx
+ ┃ ┃ ┣ 📜tree-stats-page.tsx
  ┃ ┃ ┗ 📜use-trees-api.ts
  ┃ ┗ 📜index.ts
  ┣ 📂types
