@@ -7,6 +7,7 @@ import { Tree } from "../../types/tree";
 interface FormattedTree {
   date: string;
   value: number;
+  key: string;
 }
 
 function getTotalValue(list: Tree[]): number {
@@ -22,9 +23,10 @@ export function selectTreeTotalsPerDay(list: Tree[]): FormattedTree[] {
       return {
         value: getTotalValue(value),
         date,
+        key: date,
       };
     }
-  ).sort((a: FormattedTree, b: FormattedTree) =>
-    isBefore(parseISO(a.date), parseISO(b.date))
-  );
+  ).sort((a: FormattedTree, b: FormattedTree) => {
+    return isBefore(parseISO(a.date), parseISO(b.date)) ? -1 : 1;
+  });
 }
