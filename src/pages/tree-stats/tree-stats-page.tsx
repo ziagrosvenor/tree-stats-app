@@ -66,7 +66,7 @@ export const DataView: React.FC<{ data: Tree[] }> = ({ data }) => {
   );
 };
 
-export const TreeStatsRoute: React.FC<{}> = () => {
+export const TreeStatsPage: React.FC<{}> = () => {
   const [result] = useTreesAPI();
 
   return (
