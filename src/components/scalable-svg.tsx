@@ -15,6 +15,7 @@ const Svg = styled.svg`
   height: 100%;
   left: 0;
   top: 0;
+  overflow: visible;
 `;
 
 interface Props {
@@ -27,7 +28,7 @@ interface Props {
 export const ScalableSvg: React.FC<Props> = (props) => {
   return (
     <Container {...props}>
-      <Svg>
+      <Svg viewBox={`0 0 ${props.viewX} ${props.viewY}`}>
         <g transform={`translate(${props.padding} ,${props.padding})`}>
           {props.children}
         </g>

@@ -19,6 +19,7 @@ interface Datum {
 
 interface Props {
   data: Datum[];
+  formatKey: any;
 }
 
 export const BarChart: React.FC<Props> = (props) => {
@@ -61,7 +62,7 @@ export const BarChart: React.FC<Props> = (props) => {
       >
         {(nodes) => (
           <g>
-            {nodes.map(({ key, data, state }) => {
+            {nodes.map(({ key, data, state }, i) => {
               const { y, ...rest } = state;
 
               return (
@@ -72,14 +73,17 @@ export const BarChart: React.FC<Props> = (props) => {
                     fill={"red"}
                     {...rest}
                   />
-                  <text
-                    x={scale.bandwidth() / 2}
-                    y={viewport.y - gutter + 15}
-                    dx="-.35em"
-                    fill="#333"
-                  >
-                    {data.key}
-                  </text>
+
+                  {i % 40 === 0 && (
+                    <text
+                      x={scale.bandwidth() / 2}
+                      y={viewport.y - gutter + 15}
+                      dx="-.35em"
+                      fill="#333"
+                    >
+                      {props.formatKey(key)}
+                    </text>
+                  )}
                 </g>
               );
             })}
