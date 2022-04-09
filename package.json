@@ -17,7 +17,7 @@
     "date-fns": "^2.15.0",
     "just-group-by": "^1.0.0",
     "lodash": "^4.17.19",
-    "moment": "^2.27.0",
+    "moment": "^2.29.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-move": "^6.4.0",
